@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+
+# Build outputs
+dist/
+out/
+build/
+.angular/
+
+# Editor
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+git_commits.ps1
+git.ps1
+rebuild_git.ps1
+env.txt
+*.pdf
+IT Summer Student Work Assignment - 2026.json
