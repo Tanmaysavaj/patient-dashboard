@@ -1,0 +1,133 @@
+<!-- Toast for success/error messages -->
+<p-toast />
+
+<div class="form-page">
+  <div class="form-container">
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- Header -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div class="form-header">
+      <button pButton
+        icon="pi pi-arrow-left"
+        class="p-button-text p-button-plain"
+        (click)="goBack()"
+        id="btn-back">
+      </button>
+      <div>
+        <h1 class="form-title">Add New Patient</h1>
+        <p class="form-subtitle">Fill in the patient information below</p>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- Patient Form -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <form [formGroup]="patientForm" (ngSubmit)="onSubmit()" class="patient-form">
+
+      <!-- Row: First Name & Last Name -->
+      <div class="form-row">
+        <div class="form-field">
+          <label for="firstName">First Name <span class="required">*</span></label>
+          <input pInputText
+            id="firstName"
+            formControlName="firstName"
+            placeholder="Enter first name"
+            [class.input-error]="submitted() && patientForm.get('firstName')?.invalid" />
+          @if (submitted() && patientForm.get('firstName')?.hasError('required')) {
+            <small class="error-text">First name is required</small>
+          }
+          @if (submitted() && patientForm.get('firstName')?.hasError('minlength')) {
+            <small class="error-text">Must be at least 2 characters</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="lastName">Last Name <span class="required">*</span></label>
+          <input pInputText
+            id="lastName"
+            formControlName="lastName"
+            placeholder="Enter last name"
+            [class.input-error]="submitted() && patientForm.get('lastName')?.invalid" />
+          @if (submitted() && patientForm.get('lastName')?.hasError('required')) {
+            <small class="error-text">Last name is required</small>
+          }
+          @if (submitted() && patientForm.get('lastName')?.hasError('minlength')) {
+            <small class="error-text">Must be at least 2 characters</small>
+          }
+        </div>
+      </div>
+
+      <!-- Row: Email -->
+      <div class="form-field">
+        <label for="email">Email Address <span class="required">*</span></label>
+        <input pInputText
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="patient@example.com"
+          [class.input-error]="submitted() && patientForm.get('email')?.invalid" />
+        @if (submitted() && patientForm.get('email')?.hasError('required')) {
+          <small class="error-text">Email is required</small>
+        }
+        @if (submitted() && patientForm.get('email')?.hasError('email')) {
+          <small class="error-text">Please enter a valid email address</small>
+        }
+      </div>
+
+      <!-- Row: Date of Birth & Status -->
+      <div class="form-row">
+        <div class="form-field">
+          <label for="dateOfBirth">Date of Birth <span class="required">*</span></label>
+          <input pInputText
+            id="dateOfBirth"
+            type="date"
+            formControlName="dateOfBirth"
+            [max]="today"
+            [class.input-error]="submitted() && patientForm.get('dateOfBirth')?.invalid" />
+          @if (submitted() && patientForm.get('dateOfBirth')?.hasError('required')) {
+            <small class="error-text">Date of birth is required</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="status">Status <span class="required">*</span></label>
+          <p-select
+            id="status"
+            [options]="statusOptions"
+            formControlName="status"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Select status"
+            styleClass="w-full">
+          </p-select>
+          @if (submitted() && patientForm.get('status')?.hasError('required')) {
+            <small class="error-text">Status is required</small>
+          }
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- Form Actions -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <div class="form-actions">
+        <button pButton
+          type="button"
+          label="Cancel"
+          class="p-button-outlined p-button-secondary"
+          (click)="goBack()"
+          id="btn-cancel">
+        </button>
+        <button pButton
+          type="submit"
+          [label]="submitting() ? 'Saving...' : 'Save Patient'"
+          [icon]="submitting() ? 'pi pi-spin pi-spinner' : 'pi pi-check'"
+          [disabled]="submitting()"
+          class="p-button-raised"
+          id="btn-submit">
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

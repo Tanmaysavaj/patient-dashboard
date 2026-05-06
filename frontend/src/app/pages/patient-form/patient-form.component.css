@@ -1,0 +1,141 @@
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/*  Patient Form — Styles                                                      */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+.form-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 680px;
+  background: #1e293b;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 2rem;
+  height: fit-content;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+
+.form-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.form-subtitle {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin: 0.15rem 0 0;
+}
+
+/* ─── Form Layout ────────────────────────────────────────────────────────── */
+
+.patient-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+.required {
+  color: #ef4444;
+}
+
+/* ─── Input Styling ──────────────────────────────────────────────────────── */
+
+.form-field input,
+:host ::ng-deep .form-field .p-inputtext {
+  width: 100%;
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #e2e8f0;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease;
+}
+
+.form-field input:focus,
+:host ::ng-deep .form-field .p-inputtext:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+  outline: none;
+}
+
+.input-error {
+  border-color: #ef4444 !important;
+}
+
+/* ─── Validation Error Text ──────────────────────────────────────────────── */
+
+.error-text {
+  color: #ef4444;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+/* ─── Dropdown Overrides ─────────────────────────────────────────────────── */
+
+:host ::ng-deep .p-dropdown {
+  width: 100%;
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-label {
+  color: #e2e8f0;
+}
+
+/* ─── Form Actions ───────────────────────────────────────────────────────── */
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-container {
+    padding: 1.25rem;
+  }
+}
