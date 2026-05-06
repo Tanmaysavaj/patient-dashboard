@@ -1,0 +1,101 @@
+<!-- Toast for error/success messages -->
+<p-toast />
+
+<!-- Loading spinner while fetching patient data -->
+<app-spinner [show]="loading()" [overlay]="true" message="Loading patient details..." />
+
+<div class="detail-page">
+  <div class="detail-container">
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- Header with Back Button -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div class="detail-header">
+      <button pButton
+        icon="pi pi-arrow-left"
+        label="Back to Dashboard"
+        class="p-button-text p-button-plain"
+        (click)="goBack()"
+        id="btn-back-dashboard">
+      </button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- Patient Card -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    @if (patient()) {
+      <div class="patient-card">
+
+        <!-- Patient Name & Status -->
+        <div class="card-top">
+          <div class="patient-name-section">
+            <div class="avatar">
+              {{ patient()!.firstName[0] }}{{ patient()!.lastName[0] }}
+            </div>
+            <div>
+              <h1 class="patient-name">{{ patient()!.firstName }} {{ patient()!.lastName }}</h1>
+              <p class="patient-email">{{ patient()!.email }}</p>
+            </div>
+          </div>
+          <app-status-badge [status]="patient()!.status" />
+        </div>
+
+        <!-- Patient Details Grid -->
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">
+              <i class="pi pi-envelope"></i> Email
+            </span>
+            <span class="info-value">{{ patient()!.email }}</span>
+          </div>
+
+          <div class="info-item">
+            <span class="info-label">
+              <i class="pi pi-calendar"></i> Date of Birth
+            </span>
+            <span class="info-value">{{ patient()!.dateOfBirth | date:'mediumDate' }}</span>
+          </div>
+
+          <div class="info-item">
+            <span class="info-label">
+              <i class="pi pi-clock"></i> Registered Date
+            </span>
+            <span class="info-value">{{ patient()!.registeredDate | date:'medium' }}</span>
+          </div>
+
+          <div class="info-item">
+            <span class="info-label">
+              <i class="pi pi-id-card"></i> Patient ID
+            </span>
+            <span class="info-value id-value">{{ patient()!._id }}</span>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- Status Change Section -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <div class="status-section">
+          <h3 class="section-label">Change Status</h3>
+          <div class="status-change-row">
+            <p-select
+              [options]="statusOptions"
+              [ngModel]="selectedStatus()"
+              (ngModelChange)="onStatusChange($event)"
+              optionLabel="label"
+              optionValue="value"
+              [disabled]="updating()"
+              id="dropdown-change-status"
+              styleClass="status-change-dropdown">
+            </p-select>
+            @if (updating()) {
+              <span class="updating-text">
+                <i class="pi pi-spin pi-spinner"></i> Updating...
+              </span>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+  </div>
+</div>
