@@ -1,0 +1,195 @@
+<!-- Toast for dismissible error/success messages -->
+<p-toast />
+
+<!-- Loading spinner overlay -->
+<app-spinner [show]="loading()" [overlay]="true" message="Loading patients..." />
+
+<div class="dashboard-container">
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- Header -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="dashboard-header">
+    <div>
+      <h1 class="dashboard-title">Patient Dashboard</h1>
+      <p class="dashboard-subtitle">Manage and monitor patient registrations</p>
+    </div>
+    <button pButton
+      label="+ Add Patient"
+      class="p-button-raised"
+      id="btn-add-patient"
+      (click)="navigateToAddPatient()">
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- Summary Cards -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="stats-grid">
+    <!-- Total Patients -->
+    <div class="stat-card stat-total">
+      <div class="stat-icon">
+        <i class="pi pi-users"></i>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ stats().total }}</span>
+        <span class="stat-label">Total Patients</span>
+      </div>
+    </div>
+
+    <!-- Active -->
+    <div class="stat-card stat-active">
+      <div class="stat-icon">
+        <i class="pi pi-check-circle"></i>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ stats().active }}</span>
+        <span class="stat-label">Active</span>
+      </div>
+    </div>
+
+    <!-- Pending -->
+    <div class="stat-card stat-pending">
+      <div class="stat-icon">
+        <i class="pi pi-clock"></i>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ stats().pending }}</span>
+        <span class="stat-label">Pending</span>
+      </div>
+    </div>
+
+    <!-- Inactive -->
+    <div class="stat-card stat-inactive">
+      <div class="stat-icon">
+        <i class="pi pi-times-circle"></i>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ stats().inactive }}</span>
+        <span class="stat-label">Inactive</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- Chart Section -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="chart-section">
+    <div class="section-card">
+      <h2 class="section-title">Status Breakdown</h2>
+      <div class="chart-wrapper">
+        <p-chart type="pie"
+          [data]="chartData()"
+          [options]="chartOptions"
+          width="100%"
+          height="300px">
+        </p-chart>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- Filters & Search -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="section-card">
+    <div class="filters-row">
+      <!-- Search Input -->
+      <div class="filter-group">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText
+            type="text"
+            placeholder="Search by name or email..."
+            [ngModel]="searchQuery()"
+            (ngModelChange)="searchQuery.set($event)"
+            (keyup.enter)="onSearch()"
+            id="input-search"
+            class="search-input" />
+        </span>
+        <button pButton
+          icon="pi pi-search"
+          class="p-button-outlined"
+          (click)="onSearch()"
+          id="btn-search">
+        </button>
+      </div>
+
+      <!-- Status Filter Dropdown -->
+      <div class="filter-group">
+        <p-select
+          [options]="statusOptions"
+          [ngModel]="selectedStatus()"
+          (ngModelChange)="selectedStatus.set($event); onStatusFilter()"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Filter by status"
+          id="dropdown-status"
+          styleClass="status-dropdown">
+        </p-select>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- Patient Table -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <p-table [value]="patients()"
+      [rows]="pageSize()"
+      [totalRecords]="totalRecords()"
+      [lazy]="false"
+      styleClass="p-datatable-striped p-datatable-gridlines"
+      responsiveLayout="scroll"
+      id="patient-table">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Registered Date</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-patient>
+        <tr>
+          <td>{{ patient.firstName }} {{ patient.lastName }}</td>
+          <td>{{ patient.email }}</td>
+          <td>
+            <app-status-badge [status]="patient.status" />
+          </td>
+          <td>{{ patient.registeredDate | date:'mediumDate' }}</td>
+          <td>
+            <button pButton
+              icon="pi pi-eye"
+              class="p-button-text p-button-sm"
+              (click)="viewPatient(patient._id)"
+              pTooltip="View Details"
+              id="btn-view-{{ patient._id }}">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <!-- Empty state message -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5" class="empty-message">
+            <i class="pi pi-inbox"></i>
+            <p>No patients found</p>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <!-- Paginator -->
+    <p-paginator
+      [rows]="pageSize()"
+      [totalRecords]="totalRecords()"
+      [rowsPerPageOptions]="pageSizeOptions"
+      [first]="(currentPage() - 1) * pageSize()"
+      (onPageChange)="onPageChange($event)"
+      id="patient-paginator">
+    </p-paginator>
+  </div>
+
+</div>
