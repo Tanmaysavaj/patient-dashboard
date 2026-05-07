@@ -85,6 +85,19 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
+    // Tighten validation: Basic email format check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      res.status(400).json({ error: 'Invalid email format' });
+      return;
+    }
+
+    // Tighten validation: Date of birth cannot be in the future
+    if (new Date(dateOfBirth) > new Date()) {
+      res.status(400).json({ error: 'Date of birth cannot be in the future' });
+      return;
+    }
+
     const patient = new Patient({ firstName, lastName, email, dateOfBirth, status });
     const saved = await patient.save();
     res.status(201).json(saved);
