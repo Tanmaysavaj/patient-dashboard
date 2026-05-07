@@ -1,6 +1,9 @@
 {
   "name": "frontend",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=24.0.0 <25.0.0"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -11,6 +14,7 @@
   "private": true,
   "packageManager": "npm@10.9.7",
   "dependencies": {
+    "@angular/animations": "^21.2.12",
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
     "@angular/core": "^21.2.0",

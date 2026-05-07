@@ -34,8 +34,7 @@ import { PatientStatus } from '../../models/patient.model';
     InputTextModule,
     SelectModule,
     ButtonModule,
-    ToastModule,
-    SpinnerComponent
+    ToastModule
   ],
   providers: [MessageService],
   templateUrl: './patient-form.component.html',

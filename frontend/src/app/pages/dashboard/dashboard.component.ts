@@ -165,7 +165,7 @@ export class DashboardComponent implements OnInit {
   }
 
   /** Handle paginator page change */
-  onPageChange(event: any): void {
+  onPageChange(event: { first?: number; rows?: number }): void {
     const first = event.first ?? 0;
     const rows = event.rows ?? this.pageSize();
     const newPage = Math.floor(first / rows) + 1;
