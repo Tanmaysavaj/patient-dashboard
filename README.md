@@ -1,8 +1,10 @@
 # 🏥 Patient Registration Dashboard
 
-Hey there! 👋 Welcome to the Patient Registration Dashboard. This project was built as part of the IT Summer Student Work Assignment. 
+ - > Full-stack Patient Registration Dashboard built for the IT Summer Student Work Assignment.
 
-It’s a clean, modern, and fully functional full-stack web application designed to help staff easily manage patient records, track statuses, and view quick summary statistics.
+ - The application allows staff to view, search, filter, add, and manage patient records, with dashboard statistics, status charts, pagination, loading states, and error handling.
+ 
+- It’s a clean, modern, and fully functional full-stack web application designed to help staff easily manage patient records, track statuses, and view quick summary statistics.
 
 ---
 
